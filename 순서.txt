@@ -1,0 +1,55 @@
+1. urls 분리하는 이유 / 새로 만든 urls은 posts가 생략. post/[XXXX] <-분리해서 관리=유지보수 관리
+
+
+django-admin startproject board .
+python -m venv venv
+source venv/Scripts/activate
+pip install django
+python manage.py runserver
+python manage.py migrate
+django-admin startapp posts
+
+settings.py에서 posts
+urls.py에서 from django.urls import path, include
+	urlpatterns = [
+    path("admin/", admin.site.urls),
+    path('posts.', include('posts.urls')),
+]
+posts 폴더에 urls.py 파일 생성, 코드
+views.py에서 index 정의
+
+최상위 폴더에 templates폴더, base.html 파일 생성
+settings.py에서 "DIRS": [BASE_DIR / 'templates'],
+base.html에 부트스트랩 복붙, nav 복붙
+
+index.html
+models.py
+
+python manage.py makemigrations
+python manage.py migrate
+
+admin.py에서 from .models import Post / admin.site.register(Post)
+python manage.py createsuperuser
+
+views.py에서 from .models import Post, def index에 posts= (context) 추가
+index.html
+urls.py에서 path('<int:id>/', views.detail, name='detail'),
+views.py에서 detail 정의
+detail.html 생성
+base.html
+urls.py 에서 new
+views.py에서 def new
+new.html / 부트스트랩 overview 복붙
+urls.py에서 #create path추가
+views.py에서 def create
+
+settings.py에서 'UTC' -> 'Asia/Seoul'
+
+detail.html에서 <a href="{% url 'posts:delete' id=post.id %}" class="btn btn-danger">delete</a>
+urls.py에서 path delete 
+views.py에서 def delete
+detail.html에서 <a href="{% url 'posts:edit' id=post.id %}" class="btn btn-warning">edit</a>
+urls.py에서 path edit, update
+views.py에서 def edit, update
+
+
